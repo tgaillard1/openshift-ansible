@@ -213,6 +213,14 @@
     when: openshift_master_bootstrap_enabled | default(false) | bool
     run_once: True
 
+  - name: Setup the node bootstrap auto approver
+    import_role:
+      name:  openshift_bootstrap_autoapprover
+    when:
+    - openshift_master_bootstrap_enabled | default(false) | bool
+    - openshift_master_bootstrap_auto_approve | default(false) | bool
+    run_once: True
+
   post_tasks:
   - name: Create group for deployment type
     group_by: key=oo_masters_deployment_type_{{ openshift.common.deployment_type }}
